@@ -87,6 +87,15 @@ span.header-item {
   font-weight: bold;
 }
 
+#sidebar a {
+  color: white;
+  text-decoration: none;
+}
+
+#sidebar a.active {
+  color: var(--accent-color);
+}
+
 /* ===== MOBILE RESET ===== */
 @media (max-width: 900px) {
   html, body {
