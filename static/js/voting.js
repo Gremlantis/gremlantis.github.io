@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
   sidebar.innerHTML = "";
   buildSidebar(sidebar, votingRecords);
 
-  // Load record only if hash exists
+  // Load only if hash exists
   loadFromHash();
 });
 
@@ -26,13 +26,7 @@ function buildSidebar(container, records) {
   records.forEach(record => {
     const li = document.createElement("li");
 
-    // Header (non-clickable if it has children)
-    const span = document.createElement("span");
-    span.textContent = record.title;
-    span.className = record.items && record.items.length ? "header-item" : "";
-    li.appendChild(span);
-
-    // Leaf node (clickable file)
+    // If this record has a file, make it a link
     if (record.file) {
       const slug = record.file.replace(".txt", "");
 
@@ -40,7 +34,14 @@ function buildSidebar(container, records) {
       a.href = `#${slug}`;
       a.textContent = record.title;
 
-      li.replaceChild(a, span);
+      li.appendChild(a);
+    } 
+    // Otherwise it's just a header
+    else {
+      const span = document.createElement("span");
+      span.textContent = record.title;
+      span.className = "header-item";
+      li.appendChild(span);
     }
 
     // Recursively build children
@@ -62,6 +63,7 @@ function findRecordBySlug(records, slug) {
       const fileSlug = record.file.replace(".txt", "");
       if (fileSlug === slug) return record;
     }
+
     if (record.items) {
       const found = findRecordBySlug(record.items, slug);
       if (found) return found;
@@ -70,17 +72,34 @@ function findRecordBySlug(records, slug) {
   return null;
 }
 
-function loadFromHash() {
-  const hash = location.hash.replace("#", "");
+function updateActiveLink(slug) {
+  const links = document.querySelectorAll("#sidebar a");
 
-  if (!hash) return; // don't load anything if no hash
+  links.forEach(link => {
+    if (link.getAttribute("href") === `#${slug}`) {
+      link.classList.add("active");
+    } else {
+      link.classList.remove("active");
+    }
+  });
+}
+
+function loadFromHash() {
+  const hash = location.hash.slice(1);
+
+  if (!hash) {
+    updateActiveLink(null);
+    return;
+  }
 
   const record = findRecordBySlug(votingRecords, hash);
 
   if (record) {
     loadVote(record.file);
+    updateActiveLink(hash);
   } else {
     console.warn("No voting record found for:", hash);
+    updateActiveLink(null);
   }
 }
 
@@ -112,7 +131,6 @@ function renderFromText(text) {
   content.innerHTML = "";
 
   let currentSection = null;
-  let sectionCount = 0;
   let listStack = [];
   let bulletBaseIndent = null;
 
@@ -123,7 +141,6 @@ function renderFromText(text) {
       bulletBaseIndent = null;
     }
 
-    sectionCount++;
     const section = document.createElement("div");
     section.className = "section";
 
