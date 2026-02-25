@@ -1,4 +1,4 @@
-﻿Preamble: The Sovereign State of Gremlantis
+Preamble: The Sovereign State of Gremlantis
 We, the Members of Gremlantis, establish this Constitution to ensure order, creativity, fairness, and unity within our virtual nation.
 Gremlantis shall be governed by a Head of State, advised by the High Council, guided by the Republic, and safeguarded by a designated Proxy in times of absence.
 ________________
@@ -84,6 +84,7 @@ ________________
 
 Article VI:  Lawmaking and Decisions
    1. Laws and rules may be initiated by:
+   * The Head of State
    * The High Council
    * The Republic
    2. Rules initiated by the High Council are voted on solely by the High Council.
@@ -141,10 +142,12 @@ Article XI: Voting Attendance
    4. An inactive member may be reinstated to active status upon notifying the Head of State or Proxy of their return.
    5. All High Council polls shall have a maximum duration of one week, during which the Head of State shall not participate.
    6. A poll shall be declared complete immediately once all active High Council members have cast their votes, even if the one-week duration has not yet elapsed.
+   7. Any High Council member may declare themselves inactive for any reason, and may elect not to disclose the reason for their inactivity.
 ________________
 
 
 Article XII: Constitutional Protection
-   1. All amendments to this Constitution, including those proposed by the Head of State, require a unanimous vote from all active High Council members to take effect.
+   1. All amendments to this constitution, including those proposed by the Head of State, require a unanimous vote from all active High Council members to take effect.
    2. No amendment may be passed without full High Council participation unless a member is formally declared inactive by the Head of State.
    3. The Head of State retains final authority to enforce and interpret all amendments following passage.
+   4. Amendments to this constitution that have been voted on by the High Council must be added without any changes to the text contents.
