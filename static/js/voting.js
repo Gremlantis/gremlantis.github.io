@@ -9,11 +9,15 @@ const votingRecords = [
   }
 ];
 
-// Populate sidebar recursively
+// ---------------- Sidebar Builder ----------------
+
 document.addEventListener("DOMContentLoaded", () => {
   const sidebar = document.getElementById("sidebar");
   sidebar.innerHTML = "";
   buildSidebar(sidebar, votingRecords);
+
+  // Load record only if hash exists
+  loadFromHash();
 });
 
 function buildSidebar(container, records) {
@@ -22,26 +26,24 @@ function buildSidebar(container, records) {
   records.forEach(record => {
     const li = document.createElement("li");
 
-    // Main header (non-clickable if it has children)
+    // Header (non-clickable if it has children)
     const span = document.createElement("span");
     span.textContent = record.title;
     span.className = record.items && record.items.length ? "header-item" : "";
     li.appendChild(span);
 
-    // Only create clickable links if this is a leaf item (has a file)
+    // Leaf node (clickable file)
     if (record.file) {
+      const slug = record.file.replace(".txt", "");
+
       const a = document.createElement("a");
-      a.href = "#";
+      a.href = `#${slug}`;
       a.textContent = record.title;
-      a.addEventListener("click", e => {
-        e.preventDefault();
-        loadVote(record.file);
-      });
-      // Replace span with link for leaf items
+
       li.replaceChild(a, span);
     }
 
-    // Recursively build sub-items if any
+    // Recursively build children
     if (record.items && record.items.length) {
       buildSidebar(li, record.items);
     }
@@ -52,7 +54,40 @@ function buildSidebar(container, records) {
   container.appendChild(ul);
 }
 
-// Load vote content from static file
+// ---------------- Hash Routing ----------------
+
+function findRecordBySlug(records, slug) {
+  for (const record of records) {
+    if (record.file) {
+      const fileSlug = record.file.replace(".txt", "");
+      if (fileSlug === slug) return record;
+    }
+    if (record.items) {
+      const found = findRecordBySlug(record.items, slug);
+      if (found) return found;
+    }
+  }
+  return null;
+}
+
+function loadFromHash() {
+  const hash = location.hash.replace("#", "");
+
+  if (!hash) return; // don't load anything if no hash
+
+  const record = findRecordBySlug(votingRecords, hash);
+
+  if (record) {
+    loadVote(record.file);
+  } else {
+    console.warn("No voting record found for:", hash);
+  }
+}
+
+window.addEventListener("hashchange", loadFromHash);
+
+// ---------------- Load Vote ----------------
+
 async function loadVote(filename) {
   const content = document.getElementById("content-inner");
   content.textContent = "Loading…";
@@ -69,7 +104,8 @@ async function loadVote(filename) {
   }
 }
 
-// Render text with Constitution-style formatting
+// ---------------- Render Text ----------------
+
 function renderFromText(text) {
   const lines = text.split(/\r?\n/);
   const content = document.getElementById("content-inner");
@@ -114,15 +150,19 @@ function renderFromText(text) {
 
     if (line.startsWith("*")) {
       if (bulletBaseIndent === null) bulletBaseIndent = indent;
+
       let level = Math.floor((indent - bulletBaseIndent) / 3);
       if (level < 0) level = 0;
+
       listStack.length = level + 1;
+
       if (!listStack[level]) {
         const ul = document.createElement("ul");
         if (level === 0) currentSection.appendChild(ul);
         else listStack[level - 1].lastElementChild.appendChild(ul);
         listStack[level] = ul;
       }
+
       const li = document.createElement("li");
       li.textContent = line.replace(/^\*\s*/, "");
       listStack[level].appendChild(li);
@@ -130,6 +170,7 @@ function renderFromText(text) {
     } else {
       bulletBaseIndent = null;
       listStack = [];
+
       const p = document.createElement("p");
       p.textContent = line;
       currentSection.appendChild(p);
@@ -139,11 +180,14 @@ function renderFromText(text) {
   if (currentSection) content.appendChild(currentSection);
 }
 
-// Layout resize
+// ---------------- Layout Resize ----------------
+
 const header = document.querySelector("header");
 const wrapper = document.querySelector(".constitution-wrapper");
+
 function resizeLayout() {
   wrapper.style.height = `calc(100vh - ${header.offsetHeight}px)`;
 }
+
 window.addEventListener("resize", resizeLayout);
 resizeLayout();
