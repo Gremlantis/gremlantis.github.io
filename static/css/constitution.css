@@ -83,6 +83,10 @@ p {
   scrollbar-color: var(--accent-color) rgba(0,0,0,0.1);
 }
 
+span.header-item {
+  font-weight: bold;
+}
+
 /* ===== MOBILE RESET ===== */
 @media (max-width: 900px) {
   html, body {
