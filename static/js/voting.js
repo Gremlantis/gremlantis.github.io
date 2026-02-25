@@ -92,7 +92,7 @@ function renderFromText(text) {
     section.className = "section";
 
     const h2 = document.createElement("h2");
-    h2.textContent = title + ":";
+    h2.textContent = title;
     section.appendChild(h2);
 
     currentSection = section;
