@@ -104,7 +104,7 @@ function loadFromHash() {
     loadVote(record.file);
     updateActiveLink(hash);
   } else {
-    console.warn("No voting record found for:", hash);
+    console.warn("No record found for:", hash);
     updateActiveLink(null);
   }
 }
@@ -124,7 +124,7 @@ async function loadVote(filename) {
     const text = await res.text();
     renderFromText(text);
   } catch (err) {
-    content.textContent = "Failed to load voting record.";
+    content.textContent = "Failed to load record.";
     console.error(err);
   }
 }
@@ -169,7 +169,7 @@ function renderFromText(text) {
       continue;
     }
 
-    if (!currentSection) startSection("Record:\n\n");
+    if (!currentSection) startSection("Record:");
 
     if (line.startsWith("*")) {
       if (bulletBaseIndent === null) bulletBaseIndent = indent;
