@@ -1,0 +1,122 @@
+/* ===== FULL HEIGHT & SCROLL FIX ===== */
+html, body {
+  height: 100% !important;
+  overflow: hidden !important; /* prevent body scrolling */
+  font-family: var(--mono-font) !important;
+}
+
+p {
+    font-size: 0.8rem;
+    color: #fff;
+}
+
+/* wrapper fills remaining viewport under header */
+.constitution-wrapper {
+  display: flex;
+  gap: 2px;
+  padding: 2px;
+  max-width: 100%;
+  margin: 2px;
+  height: 100%; /* fill remaining viewport */
+}
+
+/* sidebar scroll independently */
+.constitution-sidebar {
+  width: 450px;
+  flex-shrink: 0;
+  height: 100%;
+  overflow-y: auto;
+  border-right: 2px solid var(--accent-color);
+  margin-right: 2px;
+}
+
+/* constitution content scroll independently */
+.constitution-content {
+  flex: 1;
+  height: 100%;
+  width: 100%;
+  overflow-y: auto;
+  padding-right: 12px;
+  font-size: 0.9rem;
+}
+
+.constitution-content ul,
+.section ul {
+  list-style-type: circle; /* hollow circle bullet */
+}
+
+/* signature pinned inside frame */
+.signature-placeholder {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 900;
+  pointer-events: none;
+  display: none;
+}
+
+/* ===== MAGENTA NEON SCROLLBARS ===== */
+
+/* WebKit / Chrome / Edge / Safari */
+.constitution-sidebar::-webkit-scrollbar,
+.constitution-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.constitution-sidebar::-webkit-scrollbar-thumb,
+.constitution-content::-webkit-scrollbar-thumb {
+  background-color: var(--accent-color); /* magenta */
+  border-radius: 4px;
+  box-shadow: 0 0 6px var(--accent-glow);
+}
+
+.constitution-sidebar::-webkit-scrollbar-track,
+.constitution-content::-webkit-scrollbar-track {
+  background: rgba(0,0,0,0.1);
+  border-radius: 4px;
+}
+
+/* Firefox */
+.constitution-sidebar,
+.constitution-content {
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent-color) rgba(0,0,0,0.1);
+}
+
+span.header-item {
+  font-weight: bold;
+}
+
+#sidebar a {
+  color: white;
+  text-decoration: none;
+}
+
+#sidebar a.active {
+  color: var(--accent-color);
+}
+
+/* ===== MOBILE RESET ===== */
+@media (max-width: 900px) {
+  html, body {
+    overflow: auto !important;
+    height: auto !important;
+  }
+
+  .constitution-wrapper {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .constitution-sidebar,
+  .constitution-content {
+    height: auto;
+    overflow: visible;
+  }
+
+  .signature-placeholder {
+    position: relative;
+    margin: 2rem auto;
+    display: block;
+  }
+}
