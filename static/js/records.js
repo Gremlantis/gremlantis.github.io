@@ -12,6 +12,12 @@ const votingRecords = [
     items: [
       { file: "war-declarations/the_banana_republic.txt", title: "The Banana Republic" }
     ]
+  },
+  {
+    title: "Peace Treaties",
+    items: [
+      { file: "peace-treaties/the_banana_republic.txt", title: "The Banana Republic" }
+    ]
   }
 ];
 
