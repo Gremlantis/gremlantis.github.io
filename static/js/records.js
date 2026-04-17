@@ -6,18 +6,6 @@ const votingRecords = [
       { file: "voting-records/article_xiii.txt", title: "Article XIII: Treaties and Agreements" },
       { file: "voting-records/article_xiv.txt", title: "Article XIV: Declaration of War" },
     ]
-  },
-  {
-    title: "Declarations of War",
-    items: [
-      { file: "war-declarations/the_banana_republic.txt", title: "The Banana Republic" }
-    ]
-  },
-  {
-    title: "Peace Treaties",
-    items: [
-      { file: "peace-treaties/the_banana_republic.txt", title: "The Banana Republic" }
-    ]
   }
 ];
 
